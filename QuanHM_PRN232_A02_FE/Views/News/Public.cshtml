@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Public News";
+}
+<h2>Public News</h2>
+
+<div class="row g-2 mb-3">
+    <div class="col-md-3"><input id="kw" class="form-control" placeholder="Keyword" /></div>
+    <div class="col-md-2">
+        <select id="sortBy" class="form-select">
+            <option value="createdDate">CreatedDate</option>
+            <option value="title">Title</option>
+            <option value="headline">Headline</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select id="sortOrder" class="form-select">
+            <option value="desc">Desc</option>
+            <option value="asc">Asc</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select id="pageSize" class="form-select">
+            <option>5</option>
+            <option selected>10</option>
+            <option>20</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button id="btnSearch" class="btn btn-primary w-100">Search</button>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead><tr><th>Title</th><th>Headline</th><th>Date</th></tr></thead>
+    <tbody id="tbl"></tbody>
+</table>
+<nav><ul id="pager" class="pagination"></ul></nav>
+
+@section Scripts {
+    <script>
+        let page = 1;
+        function load(){
+          const qs = $.param({
+            keyword: $("#kw").val() || "",
+            page, pageSize: $("#pageSize").val(),
+            sortBy: $("#sortBy").val(), sortOrder: $("#sortOrder").val()
+          });
+          apiGet(`news/search?${qs}`, function(res){
+            const rows = (res.data || []).map(n => `
+              <tr>
+                <td>${n.newsTitle ?? ""}</td>
+                <td>${n.headline ?? ""}</td>
+                <td>${n.createdDate ? new Date(n.createdDate).toLocaleString() : ""}</td>
+              </tr>`).join("");
+            $("#tbl").html(rows);
+
+            const totalPages = res.totalPages || 1;
+            let pg = "";
+            for (let i=1;i<=totalPages;i++){
+              pg += `<li class="page-item ${i===res.page?'active':''}">
+                       <a class="page-link" href="#" data-p="${i}">${i}</a>
+                     </li>`;
+            }
+            $("#pager").html(pg);
+            $("#pager a").on("click", function(e){
+              e.preventDefault();
+              page = parseInt($(this).data("p"));
+              load();
+            });
+          });
+        }
+        $("#btnSearch, #sortBy, #sortOrder, #pageSize").on("click change", function(){ page=1; load(); });
+        $(load);
+    </script>
+}

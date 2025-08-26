@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+<h2>Register</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form id="frmReg">
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input id="email" type="email" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input id="password" type="password" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Full name</label>
+                <input id="fullname" type="text" class="form-control" />
+            </div>
+            <button class="btn btn-success" type="submit">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $("#frmReg").on("submit", function(e){
+          e.preventDefault();
+          const payload = { email: $("#email").val(), password: $("#password").val(), fullName: $("#fullname").val() };
+          apiPost("auth/register", payload, function(){
+            alert("Register success. Please login.");
+            location.href = "/Account/Login";
+          });
+        });
+    </script>
+}

@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Create Account";
+}
+<h2>Create Account</h2>
+<form id="frm">
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input id="email" type="email" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input id="password" type="password" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <input id="fullname" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Role</label>
+        <select id="role" class="form-select">
+            <option value="Admin">Admin</option>
+            <option value="Staff">Staff</option>
+            <option value="Lecturer">Lecturer</option>
+        </select>
+    </div>
+    <button class="btn btn-success">Create</button>
+    <a href="/AccountManage/Index" class="btn btn-secondary ms-2">Back</a>
+</form>
+
+@section Scripts {
+    <script>
+        $("#frm").on("submit", function(e){
+          e.preventDefault();
+          const dto = {
+            email: $("#email").val(),
+            password: $("#password").val(),
+            fullName: $("#fullname").val(),
+            role: $("#role").val()
+          };
+          apiPost("accounts", dto, function(){
+            alert("Created");
+            location.href="/AccountManage/Index";
+          });
+        });
+    </script>
+}

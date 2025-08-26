@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+<h2>Login</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form id="frmLogin">
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input id="email" type="email" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input id="password" type="password" class="form-control" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $("#frmLogin").on("submit", function(e){
+          e.preventDefault();
+          const payload = { email: $("#email").val(), password: $("#password").val() };
+          apiPost("auth/login", payload, function(res){
+            // response: { token: "..." }
+            if (!res || !res.token) { alert("Login failed"); return; }
+            setToken(res.token);
+            alert("Login success");
+            location.href = "/News/Manage";
+          });
+        });
+    </script>
+}

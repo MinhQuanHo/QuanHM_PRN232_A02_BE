@@ -1,0 +1,6 @@
+@QuanHM_PRN232_A02_BE_HostAddress = http://localhost:5050
+
+GET {{QuanHM_PRN232_A02_BE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

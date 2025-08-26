@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Manage Accounts";
+}
+<h2>Manage Accounts</h2>
+<div class="mb-3">
+    <a class="btn btn-success" href="/AccountManage/Create">+ Create Account</a>
+</div>
+<table class="table">
+    <thead>
+        <tr><th>ID</th><th>Email</th><th>FullName</th><th>Role</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody id="tbl"></tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function mustAdmin(){
+          const u = currentUser();
+          if (!u || u.role !== "Admin"){
+            alert("Admin only");
+            location.href="/Account/Login";
+            return false;
+          }
+          return true;
+        }
+        function load(){
+          if (!mustAdmin()) return;
+          apiGet("accounts", function(res){
+            const rows = res.map(a => `
+              <tr>
+                <td>${a.accountId}</td>
+                <td>${a.email}</td>
+                <td>${a.fullName}</td>
+                <td>${a.role}</td>
+                <td>${a.status ? "Active" : "Inactive"}</td>
+                <td>
+                  <a class="btn btn-sm btn-primary" href="/AccountManage/Edit?id=${a.accountId}">Edit</a>
+                  <button class="btn btn-sm btn-danger ms-2" data-id="${a.accountId}">Delete</button>
+                </td>
+              </tr>`).join("");
+            $("#tbl").html(rows);
+            $("#tbl button[data-id]").on("click", function(){
+              if (!confirm("Delete this account?")) return;
+              apiDelete(`accounts/${$(this).data("id")}`, function(){
+                alert("Deleted");
+                load();
+              });
+            });
+          });
+        }
+        $(load);
+    </script>
+}

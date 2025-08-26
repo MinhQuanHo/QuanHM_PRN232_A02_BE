@@ -1,0 +1,61 @@
+﻿@{
+    var id = (string)ViewBag.Id; ViewData["Title"] = "Edit Account";
+}
+<h2>Edit Account</h2>
+<form id="frm">
+    <input type="hidden" id="id" value="@id" />
+    <div class="mb-3">
+        <label>Email</label>
+        <input id="email" type="email" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Full Name</label>
+        <input id="fullname" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Role</label>
+        <select id="role" class="form-select">
+            <option value="Admin">Admin</option>
+            <option value="Staff">Staff</option>
+            <option value="Lecturer">Lecturer</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Status</label>
+        <select id="status" class="form-select">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+        </select>
+    </div>
+    <button class="btn btn-primary">Save</button>
+    <a href="/AccountManage/Index" class="btn btn-secondary ms-2">Back</a>
+</form>
+
+@section Scripts {
+    <script>
+        const id = $("#id").val();
+        function load(){
+          apiGet(`accounts/${id}`, function(a){
+            $("#email").val(a.email);
+            $("#fullname").val(a.fullName);
+            $("#role").val(a.role);
+            $("#status").val(a.status ? "true" : "false");
+          });
+        }
+        $("#frm").on("submit", function(e){
+          e.preventDefault();
+          const dto = {
+            accountId: id,
+            email: $("#email").val(),
+            fullName: $("#fullname").val(),
+            role: $("#role").val(),
+            status: $("#status").val() === "true"
+          };
+          apiPut(`accounts/${id}`, dto, function(){
+            alert("Saved");
+            location.href="/AccountManage/Index";
+          });
+        });
+        $(load);
+    </script>
+}

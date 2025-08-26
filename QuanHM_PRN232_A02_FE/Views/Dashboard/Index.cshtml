@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+<h2>Dashboard</h2>
+<div id="cards" class="row g-3"></div>
+
+<script>
+    function mustAdminOrStaff(){
+      const u = currentUser();
+      return u && (u.role==="Admin" || u.role==="Staff");
+    }
+    $(function(){
+      if (!mustAdminOrStaff()){ alert("Login as Admin/Staff"); location.href="/Account/Login"; return; }
+      apiGet("dashboard", function(d){
+        $("#cards").html(`
+          <div class="col-md-4"><div class="p-3 bg-light rounded">Total News: <b>${d.totalNews}</b></div></div>
+          <div class="col-md-4"><div class="p-3 bg-light rounded">Published: <b>${d.publishedNews}</b></div></div>
+          <div class="col-md-4"><div class="p-3 bg-light rounded">Draft: <b>${d.draftNews}</b></div></div>
+          <div class="col-md-4"><div class="p-3 bg-light rounded">Users: <b>${d.totalUsers}</b></div></div>
+          <div class="col-md-4"><div class="p-3 bg-light rounded">Staff: <b>${d.staffCount}</b></div></div>
+          <div class="col-md-4"><div class="p-3 bg-light rounded">Lecturers: <b>${d.lecturerCount}</b></div></div>
+        `);
+      });
+    });
+</script>

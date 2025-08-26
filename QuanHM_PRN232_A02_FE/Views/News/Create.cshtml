@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Create News";
+}
+<h2>Create News</h2>
+<form id="frm">
+    <div class="mb-3">
+        <label class="form-label">News ID</label>
+        <input id="id" class="form-control" placeholder="VD: N202508260001" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input id="title" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Headline</label>
+        <input id="headline" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Content</label>
+        <textarea id="content" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Source</label>
+        <input id="source" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">CategoryId</label>
+        <input id="cat" type="number" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select id="status" class="form-select">
+            <option value="true">Published</option>
+            <option value="false">Draft/Hidden</option>
+        </select>
+    </div>
+    <button class="btn btn-success" type="submit">Create</button>
+    <a class="btn btn-secondary ms-2" href="/News/Manage">Back</a>
+</form>
+
+@section Scripts {
+    <script>
+        $("#frm").on("submit", function(e){
+          e.preventDefault();
+          const u = currentUser(); if(!u) { alert("Please login"); location.href="/Account/Login"; return; }
+
+          const dto = {
+            newsArticleId: $("#id").val(),
+            newsTitle: $("#title").val(),
+            headline: $("#headline").val(),
+            newsContent: $("#content").val(),
+            newsSource: $("#source").val(),
+            categoryId: $("#cat").val() ? parseInt($("#cat").val()) : null,
+            newsStatus: $("#status").val() === "true"
+          };
+          apiPost("news", dto, function(){
+            alert("Created"); location.href="/News/Manage";
+          });
+        });
+    </script>
+}

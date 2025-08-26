@@ -1,0 +1,42 @@
+﻿@inject IConfiguration Configuration
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - FU News</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand">
+        <div class="container">
+            <a class="navbar-brand" href="/">FU News</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/News/Public">Public News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/News/Manage">My News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Dashboard/Index">Dashboard</a></li>
+                </ul>
+                <div id="authArea" class="text-white"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        @RenderBody()
+    </div>
+
+    <script>
+        // expose API base from appsettings
+        window.API_BASE = '@Configuration["ApiBaseUrl"]';
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/api.js"></script>
+    <script src="~/js/auth.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

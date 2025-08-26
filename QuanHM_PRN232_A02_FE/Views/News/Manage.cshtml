@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "My News";
+}
+<h2>My News</h2>
+<div class="mb-3">
+    <a class="btn btn-success" href="/News/Create">+ Create</a>
+</div>
+<table class="table">
+    <thead><tr><th>ID</th><th>Title</th><th>Headline</th><th></th></tr></thead>
+    <tbody id="tbl"></tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function mustLogin(){
+          if (!getToken()){ alert("Please login"); location.href="/Account/Login"; return false; }
+          const u = currentUser();
+          if (!u || (u.role !== "Staff" && u.role !== "Admin")){
+            alert("Only Staff/Admin may access"); location.href="/Account/Login"; return false;
+          }
+          return true;
+        }
+
+        function load(){
+          if (!mustLogin()) return;
+          apiGet("news", function(res){
+            const rows = res.map(n => `
+              <tr>
+                <td>${n.newsArticleId}</td>
+                <td>${n.newsTitle ?? ""}</td>
+                <td>${n.headline ?? ""}</td>
+                <td class="text-end">
+                  <a class="btn btn-sm btn-primary" href="/News/Edit?id=${n.newsArticleId}">Edit</a>
+                  <button class="btn btn-sm btn-danger ms-2" data-id="${n.newsArticleId}">Delete</button>
+                </td>
+              </tr>`).join("");
+            $("#tbl").html(rows);
+            $("#tbl button[data-id]").on("click", function(){
+              if (!confirm("Soft delete this item?")) return;
+              apiDelete(`news/${$(this).data("id")}`, function(){ alert("Deleted"); load(); });
+            });
+          });
+        }
+        $(load);
+    </script>
+}

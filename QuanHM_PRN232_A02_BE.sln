@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36401.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanHM_PRN232_A02_BE", "QuanHM_PRN232_A02_BE\QuanHM_PRN232_A02_BE.csproj", "{A2F65239-EEFA-45DF-B4BF-24C802EA29B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanHM_PRN232_A02_FE", "QuanHM_PRN232_A02_FE\QuanHM_PRN232_A02_FE.csproj", "{68EE657D-99E8-4527-B9C0-4A493B850070}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2F65239-EEFA-45DF-B4BF-24C802EA29B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F65239-EEFA-45DF-B4BF-24C802EA29B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F65239-EEFA-45DF-B4BF-24C802EA29B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F65239-EEFA-45DF-B4BF-24C802EA29B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68EE657D-99E8-4527-B9C0-4A493B850070}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68EE657D-99E8-4527-B9C0-4A493B850070}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68EE657D-99E8-4527-B9C0-4A493B850070}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68EE657D-99E8-4527-B9C0-4A493B850070}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD452B12-7E86-4DE0-98E5-176F1458D4FF}
+	EndGlobalSection
+EndGlobal
